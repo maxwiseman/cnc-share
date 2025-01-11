@@ -14,6 +14,10 @@ export default function FileList() {
   >([]);
   const { data, isFetched } = api.file.getFiles.useQuery();
 
+  useEffect(() => {
+    if (data) setFilteredFiles(data);
+  }, [data]);
+
   if (!isFetched) return <>Loading...</>;
 
   const handleSearch = (query: string) => {
@@ -24,10 +28,6 @@ export default function FileList() {
     );
     setFilteredFiles(filtered);
   };
-
-  useEffect(() => {
-    if (data) setFilteredFiles(data);
-  }, [data]);
 
   return (
     <Card>
