@@ -34,7 +34,7 @@ export default function AuthStatus() {
             </AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
+        <DropdownMenuContent align="end">
           <DropdownMenuLabel>
             <div>{session.user.name}</div>
             <div className="text-sm font-normal text-muted-foreground">
