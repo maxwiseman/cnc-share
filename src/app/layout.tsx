@@ -8,6 +8,7 @@ import { SessionProvider } from "next-auth/react";
 import Link from "next/link";
 import AuthStatus from "@/components/auth-status";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata: Metadata = {
   title: "CNC Share",
@@ -25,6 +26,7 @@ export default function RootLayout({
       className={`${GeistSans.variable}`}
     >
       <body>
+        <Analytics />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
