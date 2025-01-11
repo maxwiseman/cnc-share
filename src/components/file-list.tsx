@@ -25,6 +25,10 @@ export default function FileList() {
     setFilteredFiles(filtered);
   };
 
+  useEffect(() => {
+    if (data) setFilteredFiles(data);
+  }, [data]);
+
   return (
     <Card>
       <CardHeader>
