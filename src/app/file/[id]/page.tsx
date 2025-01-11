@@ -48,28 +48,27 @@ export default async function FilePage({
             <h2 className="text-lg font-semibold">Description</h2>
             <ReactMarkdown>{fileData?.description}</ReactMarkdown>
           </div>
-          {(fileData?.images && fileData?.images.length > 0) ||
-            (fileData?.fileUrl && (
-              <div>
-                <h2 className="text-lg font-semibold">Images</h2>
-                <div className="mt-2 grid grid-cols-2 gap-4 md:grid-cols-3">
-                  {fileData.fileUrl && (
-                    <img
-                      src={fileData.fileUrl}
-                      className="object-fit h-full w-full rounded-lg object-cover"
-                    />
-                  )}
-                  {fileData.images?.map((imageUrl: string, index: number) => (
-                    <img
-                      key={index}
-                      src={imageUrl}
-                      alt={`Image ${index + 1}`}
-                      className="h-full w-full rounded-lg object-cover"
-                    />
-                  ))}
-                </div>
+          {fileData && (
+            <div>
+              <h2 className="text-lg font-semibold">Images</h2>
+              <div className="mt-2 grid grid-cols-2 gap-4 md:grid-cols-3">
+                {fileData.fileUrl && (
+                  <img
+                    src={fileData.fileUrl}
+                    className="object-fit h-full w-full rounded-lg object-cover"
+                  />
+                )}
+                {fileData.images?.map((imageUrl: string, index: number) => (
+                  <img
+                    key={index}
+                    src={imageUrl}
+                    alt={`Image ${index + 1}`}
+                    className="h-full w-full rounded-lg object-cover"
+                  />
+                ))}
               </div>
-            ))}
+            </div>
+          )}
           <div>
             <h2 className="text-lg font-semibold">File Details</h2>
             <p>Filename: {fileData?.title}</p>
