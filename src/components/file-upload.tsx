@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { generateUploadButton } from "@uploadthing/react";
 import { OurFileRouter } from "@/lib/uploadthing";
 import { api } from "@/trpc/react";
+import { redirect, useRouter } from "next/navigation";
 
 export default function FileUpload() {
   const { data: session } = useSession();
@@ -21,17 +22,19 @@ export default function FileUpload() {
   }>({ images: [] });
   const UploadButton = generateUploadButton<OurFileRouter>();
   const fileMutation = api.file.uploadFileMetadata.useMutation();
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!title || !uploadedFiles.cncFile || !session) return;
 
-    fileMutation.mutate({
+    await fileMutation.mutateAsync({
       title: title,
       fileUrl: uploadedFiles.cncFile,
       images: uploadedFiles.images,
       description,
     });
+    router.push(`/file/${fileMutation.data?.[0]?.id}`);
   };
 
   if (!session) {
@@ -109,7 +112,12 @@ export default function FileUpload() {
               }}
             />
           </div>
-          <Button type="submit" disabled={!title || !uploadedFiles.cncFile}>
+          <Button
+            type="submit"
+            disabled={
+              !title || !uploadedFiles.cncFile || fileMutation.isPending
+            }
+          >
             Submit
           </Button>
         </form>

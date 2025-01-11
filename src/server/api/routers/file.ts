@@ -22,9 +22,12 @@ export const fileRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.db.insert(files).values({
-        ...input,
-        userId: ctx.session.user.id,
-      });
+      return await ctx.db
+        .insert(files)
+        .values({
+          ...input,
+          userId: ctx.session.user.id,
+        })
+        .returning();
     }),
 });
