@@ -5,41 +5,22 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import SearchBar from "./search-bar";
-
-interface FileInfo {
-  id: string;
-  name: string;
-  title: string;
-  url: string;
-}
+import { api } from "@/trpc/react";
+import { files } from "@/server/db/schema";
 
 export default function FileList() {
-  const [files, setFiles] = useState<FileInfo[]>([]);
-  const [filteredFiles, setFilteredFiles] = useState<FileInfo[]>([]);
+  const [filteredFiles, setFilteredFiles] = useState<
+    (typeof files.$inferSelect)[]
+  >([]);
+  const { data, isFetched } = api.file.getFiles.useQuery();
 
-  useEffect(() => {
-    fetchFiles();
-  }, []);
-
-  const fetchFiles = async () => {
-    try {
-      const response = await fetch("/api/files");
-      if (response.ok) {
-        const data = await response.json();
-        setFiles(data);
-        setFilteredFiles(data);
-      } else {
-        throw new Error("Failed to fetch files");
-      }
-    } catch (error) {
-      console.error("Error fetching files:", error);
-    }
-  };
+  if (!isFetched) return <>Loading...</>;
 
   const handleSearch = (query: string) => {
+    if (!isFetched || !data) return;
     const lowercaseQuery = query.toLowerCase();
-    const filtered = files.filter((file) =>
-      file.title.toLowerCase().includes(lowercaseQuery),
+    const filtered = data.filter((file) =>
+      file.title?.toLowerCase().includes(lowercaseQuery),
     );
     setFilteredFiles(filtered);
   };
@@ -66,7 +47,7 @@ export default function FileList() {
                   {file.title}
                 </Link>
                 <Button asChild>
-                  <a href={file.url} download>
+                  <a href={file.fileUrl ?? ""} download>
                     Download
                   </a>
                 </Button>

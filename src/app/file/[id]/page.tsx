@@ -28,8 +28,13 @@ async function getUserData(userId: string) {
   return userData.length > 0 ? userData[0] : null;
 }
 
-export default async function FilePage({ params }: { params: { id: string } }) {
-  const fileData = await getFileData(params.id);
+export default async function FilePage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const fileId = (await params).id;
+  const fileData = await getFileData(fileId);
   const userData = await getUserData(fileData?.userId ?? "");
 
   return (

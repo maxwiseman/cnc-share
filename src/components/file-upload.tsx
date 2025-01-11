@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { generateUploadButton } from "@uploadthing/react";
 import { OurFileRouter } from "@/lib/uploadthing";
+import { api } from "@/trpc/react";
 
 export default function FileUpload() {
   const { data: session } = useSession();
@@ -19,37 +20,18 @@ export default function FileUpload() {
     images: string[];
   }>({ images: [] });
   const UploadButton = generateUploadButton<OurFileRouter>();
+  const fileMutation = api.file.uploadFileMetadata.useMutation();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!title || !uploadedFiles.cncFile || !session) return;
 
-    try {
-      const response = await fetch("/api/files", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title,
-          description,
-          cncFileUrl: uploadedFiles.cncFile,
-          imageUrls: uploadedFiles.images,
-        }),
-      });
-
-      if (response.ok) {
-        alert("File uploaded successfully!");
-        setTitle("");
-        setDescription("");
-        setUploadedFiles({ images: [] });
-      } else {
-        throw new Error("File upload failed");
-      }
-    } catch (error) {
-      console.error("Error uploading file:", error);
-      alert("File upload failed. Please try again.");
-    }
+    fileMutation.mutate({
+      title: title,
+      fileUrl: uploadedFiles.cncFile,
+      images: uploadedFiles.images,
+      description,
+    });
   };
 
   if (!session) {
@@ -98,7 +80,7 @@ export default function FileUpload() {
             <UploadButton
               endpoint="cncFileUploader"
               onClientUploadComplete={(res) => {
-                if (res && res[0]) {
+                if (res?.[0]) {
                   setUploadedFiles((prev) => ({
                     ...prev,
                     cncFile: res[0]?.url,
