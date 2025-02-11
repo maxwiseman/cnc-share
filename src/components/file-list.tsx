@@ -37,7 +37,7 @@ export default function FileList() {
       {filteredFiles.length === 0 ? (
         <p>No files available.</p>
       ) : (
-        <ul className="grid auto-rows-max grid-cols-5 gap-6">
+        <ul className="grid auto-rows-max grid-cols-2 gap-6 lg:grid-cols-5">
           {filteredFiles.map((file) => (
             <li key={file.id}>
               <Link href={`/file/${encodeURIComponent(file.id)}`}>
