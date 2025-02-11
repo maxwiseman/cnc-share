@@ -39,22 +39,22 @@ export default function RootLayout({
                 <nav className="sticky top-0 z-50 bg-white shadow">
                   <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 items-center justify-between">
-                      <div className="flex items-center">
+                      <div className="flex items-center gap-6">
                         <Link href="/" className="flex-shrink-0">
                           <span className="text-2xl font-bold text-primary">
                             CNCShare
                           </span>
                         </Link>
-                        <div className="ml-10 flex items-center space-x-4">
+                        <div className="flex items-center gap-4">
                           <Link
                             href="/"
-                            className="rounded-md px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900"
+                            className="rounded-md py-2 text-sm font-medium text-gray-600 hover:text-gray-900"
                           >
                             Files
                           </Link>
                           <Link
                             href="/upload"
-                            className="rounded-md px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900"
+                            className="rounded-md py-2 text-sm font-medium text-gray-600 hover:text-gray-900"
                           >
                             Upload
                           </Link>
