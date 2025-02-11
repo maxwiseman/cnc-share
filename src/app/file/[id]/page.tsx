@@ -11,6 +11,11 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { IconDownload } from "@tabler/icons-react";
 import Link from "next/link";
 
+export async function generateStaticParams() {
+  const fileData = await db.select().from(files).limit(10);
+  return fileData.map((file) => ({ params: { id: file.id } }));
+}
+
 async function getFileData(id: string) {
   const fileData = await db
     .select()
@@ -60,7 +65,7 @@ export default async function FilePage({
           </Button>
         </Link>
       </div>
-      <ScrollArea className="flex">
+      <ScrollArea className="flex gap-4">
         {fileData?.fileUrl && (
           <Card className="h-96 w-max overflow-hidden p-0 shadow-none">
             <img className="h-full" src={fileData.fileUrl} alt="File Preview" />

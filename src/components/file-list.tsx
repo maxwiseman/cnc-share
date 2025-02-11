@@ -3,12 +3,10 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import SearchBar from "./search-bar";
 import { api } from "@/trpc/react";
-import { files } from "@/server/db/schema";
-import { IconDownload } from "@tabler/icons-react";
+import type { files } from "@/server/db/schema";
 
 export default function FileList() {
   const [filteredFiles, setFilteredFiles] = useState<
