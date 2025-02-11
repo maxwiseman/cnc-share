@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -41,33 +42,37 @@ export default function FileList() {
         <ul className="grid grid-cols-5 gap-6">
           {filteredFiles.map((file) => (
             <li key={file.id}>
-              <Card className="flex flex-col items-center justify-between p-4">
-                {file.fileUrl && (
-                  <img
-                    className="aspect-square grow object-center"
-                    src={file.fileUrl}
-                  />
-                )}
-                <div className="flex w-full items-center justify-between gap-2">
-                  <Link
-                    href={`/file/${encodeURIComponent(file.id)}`}
-                    className="text-lg hover:underline"
-                  >
-                    {file.title}
-                  </Link>
-                  <Button
-                    aria-label={`Download ${file.title}`}
-                    asChild
-                    size="icon"
-                    variant="outline"
-                  >
-                    <a href={file.fileUrl ?? ""} download>
-                      <span className="sr-only">Download {file.title}</span>
-                      <IconDownload className="h-4 w-4" />
-                    </a>
-                  </Button>
-                </div>
-              </Card>
+              <Link href={`/file/${encodeURIComponent(file.id)}`}>
+                <Card className="group flex flex-col items-center justify-between p-4">
+                  {file.fileUrl && (
+                    <img
+                      alt="File Preview"
+                      className="aspect-square grow object-center"
+                      src={file.fileUrl}
+                    />
+                  )}
+                  <div className="flex w-full items-center justify-between gap-2">
+                    <Link
+                      href={`/file/${encodeURIComponent(file.id)}`}
+                      className="text-lg group-hover:underline"
+                    >
+                      {file.title}
+                    </Link>
+                    {/* TODO: Fix the hydration error with this button */}
+                    {/* <Button
+                      aria-label={`Download ${file.title}`}
+                      asChild
+                      size="icon"
+                      variant="outline"
+                    >
+                      <a href={file.fileUrl ?? ""} download>
+                        <span className="sr-only">Download {file.title}</span>
+                        <IconDownload className="h-4 w-4" />
+                      </a>
+                    </Button> */}
+                  </div>
+                </Card>
+              </Link>
             </li>
           ))}
         </ul>
