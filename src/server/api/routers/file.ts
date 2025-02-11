@@ -9,7 +9,7 @@ import { files } from "@/server/db/schema";
 
 export const fileRouter = createTRPCRouter({
   getFiles: publicProcedure.query(async ({ ctx }) => {
-    return await ctx.db.query.files.findMany();
+    return await ctx.db.query.files.findMany({ with: { user: true } });
   }),
 
   uploadFileMetadata: protectedProcedure

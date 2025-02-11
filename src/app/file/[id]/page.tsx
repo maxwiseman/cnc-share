@@ -17,24 +17,14 @@ export async function generateStaticParams() {
 }
 
 async function getFileData(id: string) {
-  const fileData = await db
-    .select()
-    .from(files)
-    .where(eq(files.id, id))
-    .limit(1);
-  if (fileData.length === 0) {
+  const fileData = await db.query.files.findFirst({
+    with: { user: true },
+    where: eq(files.id, id),
+  });
+  if (fileData === undefined) {
     notFound();
   }
-  return fileData[0];
-}
-
-async function getUserData(userId: string) {
-  const userData = await db
-    .select()
-    .from(users)
-    .where(eq(users.id, userId))
-    .limit(1);
-  return userData.length > 0 ? userData[0] : null;
+  return fileData;
 }
 
 export default async function FilePage({
@@ -44,21 +34,20 @@ export default async function FilePage({
 }) {
   const fileId = (await params).id;
   const fileData = await getFileData(fileId);
-  const userData = await getUserData(fileData?.userId ?? "");
 
   return (
     <div className="mt-8 space-y-8">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="space-y-1">
-          <h1 className="text-4xl font-semibold">{fileData?.title}</h1>
+          <h1 className="text-4xl font-semibold">{fileData.title}</h1>
           <h2 className="inline-flex items-center gap-2 text-xl text-muted-foreground">
             <Avatar className="h-6 w-6">
-              <AvatarImage src={userData?.image ?? ""} />
+              <AvatarImage src={fileData.user?.image ?? ""} />
             </Avatar>
-            {userData?.name}
+            {fileData.user?.name}
           </h2>
         </div>
-        <Link href={fileData?.fileUrl ?? ""} download tabIndex={-1}>
+        <Link href={fileData.fileUrl ?? ""} download tabIndex={-1}>
           <Button>
             <IconDownload />
             Download
@@ -69,7 +58,7 @@ export default async function FilePage({
       // className="overflow-y-hidden overflow-x-scroll"
       >
         <div className="flex flex-nowrap gap-4">
-          {fileData?.fileUrl && (
+          {fileData.fileUrl && (
             <Card className="h-96 w-max max-w-[32rem] overflow-hidden p-6 shadow-none">
               <img
                 className="h-full"
@@ -78,7 +67,7 @@ export default async function FilePage({
               />
             </Card>
           )}
-          {fileData?.images?.map((img, i) => (
+          {fileData.images?.map((img, i) => (
             <Card
               className="h-96 w-max overflow-hidden p-0 shadow-none"
               key={img}
@@ -91,7 +80,7 @@ export default async function FilePage({
       </ScrollArea>
       <Card className="shadow-none">
         <CardContent className="p-6">
-          <ReactMarkdown>{fileData?.description}</ReactMarkdown>
+          <ReactMarkdown>{fileData.description}</ReactMarkdown>
         </CardContent>
       </Card>
     </div>

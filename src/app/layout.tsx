@@ -50,7 +50,7 @@ export default function RootLayout({
                             href="/"
                             className="rounded-md px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900"
                           >
-                            Home
+                            Files
                           </Link>
                           <Link
                             href="/upload"
