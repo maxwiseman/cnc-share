@@ -48,7 +48,7 @@ export default async function FilePage({
 
   return (
     <div className="mt-8 space-y-8">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="space-y-1">
           <h1 className="text-4xl font-semibold">{fileData?.title}</h1>
           <h2 className="inline-flex items-center gap-2 text-xl text-muted-foreground">
