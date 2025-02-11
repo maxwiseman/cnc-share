@@ -1,3 +1,5 @@
+"use client";
+
 import "@/styles/globals.css";
 
 import { GeistSans } from "geist/font/sans";
@@ -9,7 +11,7 @@ import Link from "next/link";
 import AuthStatus from "@/components/auth-status";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Analytics } from "@vercel/analytics/react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -72,12 +74,15 @@ export default function RootLayout({
                           </Link>
                         </div>
                       </div>
-                      <form onSubmit={handleSearchSubmit} className="flex gap-2">
+                      <form
+                        onSubmit={handleSearchSubmit}
+                        className="flex gap-2"
+                      >
                         <Input
                           type="text"
                           placeholder="Search CNC files..."
                           value={query}
-                          onChange={(e) => setQuery(e.target.value)}
+                          onChange={e => setQuery(e.target.value)}
                           className="flex-grow bg-background"
                         />
                         <Button type="submit">Search</Button>
