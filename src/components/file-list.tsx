@@ -44,7 +44,7 @@ export default function FileList() {
               <Card className="flex flex-col items-center justify-between p-4">
                 {file.fileUrl && (
                   <img
-                    className="aspect-square object-center"
+                    className="aspect-square grow object-center"
                     src={file.fileUrl}
                   />
                 )}
