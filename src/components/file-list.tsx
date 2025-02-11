@@ -37,15 +37,15 @@ export default function FileList() {
       {filteredFiles.length === 0 ? (
         <p>No files available.</p>
       ) : (
-        <ul className="grid grid-cols-5 gap-6">
+        <ul className="grid auto-rows-max grid-cols-5 gap-6">
           {filteredFiles.map((file) => (
             <li key={file.id}>
               <Link href={`/file/${encodeURIComponent(file.id)}`}>
-                <Card className="group flex flex-col items-center justify-between p-4">
+                <Card className="group flex h-full flex-col items-center justify-between p-4">
                   {file.fileUrl && (
                     <img
                       alt="File Preview"
-                      className="aspect-square grow object-center"
+                      className="grow object-center"
                       src={file.fileUrl}
                     />
                   )}
