@@ -30,4 +30,16 @@ export const fileRouter = createTRPCRouter({
         })
         .returning();
     }),
+
+  searchFiles: publicProcedure
+    .input(z.object({ query: z.string().min(1) }))
+    .query(async ({ ctx, input }) => {
+      const searchQuery = `%${input.query.toLowerCase()}%`;
+      const results = await ctx.db.query.files.findMany({
+        where: (file) =>
+          file.title.toLowerCase().includes(searchQuery) ||
+          file.description.toLowerCase().includes(searchQuery),
+      });
+      return results;
+    }),
 });

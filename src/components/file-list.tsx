@@ -1,44 +1,24 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
-import SearchBar from "./search-bar";
-import { api } from "@/trpc/react";
 import type { files } from "@/server/db/schema";
 
-export default function FileList() {
-  const [filteredFiles, setFilteredFiles] = useState<
-    (typeof files.$inferSelect)[]
-  >([]);
-  const { data, isFetched } = api.file.getFiles.useQuery();
+interface FileListProps {
+  files: (typeof files.$inferSelect)[];
+}
 
-  useEffect(() => {
-    if (data) setFilteredFiles(data);
-  }, [data]);
-
-  if (!isFetched) return <>Loading...</>;
-
-  const handleSearch = (query: string) => {
-    if (!isFetched || !data) return;
-    const lowercaseQuery = query.toLowerCase();
-    const filtered = data.filter((file) =>
-      file.title?.toLowerCase().includes(lowercaseQuery),
-    );
-    setFilteredFiles(filtered);
-  };
+export default function FileList({ files }: FileListProps) {
+  if (!files) return <>Loading...</>;
 
   return (
     <>
-      <div className="mb-4">
-        <SearchBar onSearch={handleSearch} />
-      </div>
-      {filteredFiles.length === 0 ? (
+      {files.length === 0 ? (
         <p>No files available.</p>
       ) : (
         <ul className="grid auto-rows-max grid-cols-2 gap-6 lg:grid-cols-5">
-          {filteredFiles.map((file) => (
+          {files.map((file) => (
             <li key={file.id}>
               <Link href={`/file/${encodeURIComponent(file.id)}`}>
                 <Card className="group flex h-full flex-col items-center justify-between p-4">

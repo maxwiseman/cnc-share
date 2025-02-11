@@ -9,6 +9,10 @@ import Link from "next/link";
 import AuthStatus from "@/components/auth-status";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Analytics } from "@vercel/analytics/react";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
   title: "CNC Share",
@@ -19,6 +23,14 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const router = useRouter();
+  const [query, setQuery] = useState("");
+
+  const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    router.push(`/search?q=${encodeURIComponent(query)}`);
+  };
+
   return (
     <html
       suppressHydrationWarning
@@ -60,6 +72,16 @@ export default function RootLayout({
                           </Link>
                         </div>
                       </div>
+                      <form onSubmit={handleSearchSubmit} className="flex gap-2">
+                        <Input
+                          type="text"
+                          placeholder="Search CNC files..."
+                          value={query}
+                          onChange={(e) => setQuery(e.target.value)}
+                          className="flex-grow bg-background"
+                        />
+                        <Button type="submit">Search</Button>
+                      </form>
                       <AuthStatus />
                     </div>
                   </div>
