@@ -9,14 +9,7 @@ import { TRPCReactProvider } from "@/trpc/react";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Analytics } from "@vercel/analytics/react";
-<<<<<<< HEAD
 import { Navbar } from "./navbar";
-=======
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
->>>>>>> 3fa5263e85e103de77fe58ca0a9f7f8f58e277cb
 
 export const metadata: Metadata = {
   title: "CNC Share",
