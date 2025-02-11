@@ -49,8 +49,13 @@ export default function FileList() {
                       src={file.fileUrl}
                     />
                   )}
-                  <div className="flex w-full items-center justify-between gap-2 text-lg group-hover:underline">
-                    {file.title}
+                  <div className="w-full items-center justify-between gap-2">
+                    <div className="text-lg font-medium group-hover:underline">
+                      {file.title}
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      {new Date(file.uploadedAt ?? "").toLocaleDateString()}
+                    </div>
                     {/* TODO: Fix the hydration error with this button */}
                     {/* <Button
                       aria-label={`Download ${file.title}`}

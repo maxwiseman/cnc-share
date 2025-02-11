@@ -6,7 +6,7 @@ import ReactMarkdown from "react-markdown";
 import { eq } from "drizzle-orm";
 import { db } from "@/server/db";
 import { files, users } from "@/server/db/schema";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { IconDownload } from "@tabler/icons-react";
 import Link from "next/link";
@@ -65,20 +65,29 @@ export default async function FilePage({
           </Button>
         </Link>
       </div>
-      <ScrollArea className="flex gap-4">
-        {fileData?.fileUrl && (
-          <Card className="h-96 w-max overflow-hidden p-0 shadow-none">
-            <img className="h-full" src={fileData.fileUrl} alt="File Preview" />
-          </Card>
-        )}
-        {fileData?.images?.map((img, i) => (
-          <Card
-            className="h-96 w-max overflow-hidden p-0 shadow-none"
-            key={img}
-          >
-            <img className="h-full" src={img} alt={`Image ${i}`} />
-          </Card>
-        ))}
+      <ScrollArea
+      // className="overflow-y-hidden overflow-x-scroll"
+      >
+        <div className="flex flex-nowrap gap-4">
+          {fileData?.fileUrl && (
+            <Card className="h-96 w-max max-w-[32rem] overflow-hidden p-6 shadow-none">
+              <img
+                className="h-full"
+                src={fileData.fileUrl}
+                alt="File Preview"
+              />
+            </Card>
+          )}
+          {fileData?.images?.map((img, i) => (
+            <Card
+              className="h-96 w-max overflow-hidden p-0 shadow-none"
+              key={img}
+            >
+              <img className="h-full" src={img} alt={`Image ${i}`} />
+            </Card>
+          ))}
+        </div>
+        <ScrollBar orientation="horizontal" />
       </ScrollArea>
       <Card className="shadow-none">
         <CardContent className="p-6">
