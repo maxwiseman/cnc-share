@@ -49,13 +49,8 @@ export default function FileList() {
                       src={file.fileUrl}
                     />
                   )}
-                  <div className="flex w-full items-center justify-between gap-2">
-                    <Link
-                      href={`/file/${encodeURIComponent(file.id)}`}
-                      className="text-lg group-hover:underline"
-                    >
-                      {file.title}
-                    </Link>
+                  <div className="flex w-full items-center justify-between gap-2 text-lg group-hover:underline">
+                    {file.title}
                     {/* TODO: Fix the hydration error with this button */}
                     {/* <Button
                       aria-label={`Download ${file.title}`}
