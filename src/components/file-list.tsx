@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import SearchBar from "./search-bar";
 import { api } from "@/trpc/react";
 import { files } from "@/server/db/schema";
+import { IconDownload } from "@tabler/icons-react";
 
 export default function FileList() {
   const [filteredFiles, setFilteredFiles] = useState<
@@ -30,36 +31,47 @@ export default function FileList() {
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Available CNC Files</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="mb-4">
-          <SearchBar onSearch={handleSearch} />
-        </div>
-        {filteredFiles.length === 0 ? (
-          <p>No files available.</p>
-        ) : (
-          <ul className="space-y-2">
-            {filteredFiles.map((file) => (
-              <li key={file.id} className="flex items-center justify-between">
-                <Link
-                  href={`/file/${encodeURIComponent(file.id)}`}
-                  className="hover:underline"
-                >
-                  {file.title}
-                </Link>
-                <Button asChild>
-                  <a href={file.fileUrl ?? ""} download>
-                    Download
-                  </a>
-                </Button>
-              </li>
-            ))}
-          </ul>
-        )}
-      </CardContent>
-    </Card>
+    <>
+      <div className="mb-4">
+        <SearchBar onSearch={handleSearch} />
+      </div>
+      {filteredFiles.length === 0 ? (
+        <p>No files available.</p>
+      ) : (
+        <ul className="grid grid-cols-5 gap-6">
+          {filteredFiles.map((file) => (
+            <li key={file.id}>
+              <Card className="flex flex-col items-center justify-between p-4">
+                {file.fileUrl && (
+                  <img
+                    className="aspect-square object-center"
+                    src={file.fileUrl}
+                  />
+                )}
+                <div className="flex w-full items-center justify-between gap-2">
+                  <Link
+                    href={`/file/${encodeURIComponent(file.id)}`}
+                    className="text-lg hover:underline"
+                  >
+                    {file.title}
+                  </Link>
+                  <Button
+                    aria-label={`Download ${file.title}`}
+                    asChild
+                    size="icon"
+                    variant="outline"
+                  >
+                    <a href={file.fileUrl ?? ""} download>
+                      <span className="sr-only">Download {file.title}</span>
+                      <IconDownload className="h-4 w-4" />
+                    </a>
+                  </Button>
+                </div>
+              </Card>
+            </li>
+          ))}
+        </ul>
+      )}
+    </>
   );
 }

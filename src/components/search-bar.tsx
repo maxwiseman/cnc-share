@@ -23,7 +23,7 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
         placeholder="Search CNC files..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        className="flex-grow"
+        className="flex-grow bg-background"
       />
       <Button type="submit">Search</Button>
     </form>

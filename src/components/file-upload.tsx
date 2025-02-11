@@ -80,37 +80,45 @@ export default function FileUpload() {
           </div>
           <div>
             <Label>Upload CNC File</Label>
-            <UploadButton
-              endpoint="cncFileUploader"
-              onClientUploadComplete={(res) => {
-                if (res?.[0]) {
-                  setUploadedFiles((prev) => ({
-                    ...prev,
-                    cncFile: res[0]?.url,
-                  }));
-                }
-              }}
-              onUploadError={(error: Error) => {
-                alert(`ERROR! ${error.message}`);
-              }}
-            />
+            {uploadedFiles.cncFile ? (
+              <div>File uploaded successfully!</div>
+            ) : (
+              <UploadButton
+                endpoint="cncFileUploader"
+                onClientUploadComplete={(res) => {
+                  if (res?.[0]) {
+                    setUploadedFiles((prev) => ({
+                      ...prev,
+                      cncFile: res[0]?.url,
+                    }));
+                  }
+                }}
+                onUploadError={(error: Error) => {
+                  alert(`ERROR! ${error.message}`);
+                }}
+              />
+            )}
           </div>
           <div>
             <Label>Upload Images (optional, max 5)</Label>
-            <UploadButton
-              endpoint="cncFileUploader"
-              onClientUploadComplete={(res) => {
-                if (res) {
-                  setUploadedFiles((prev) => ({
-                    ...prev,
-                    images: [...prev.images, ...res.map((file) => file.url)],
-                  }));
-                }
-              }}
-              onUploadError={(error: Error) => {
-                alert(`ERROR! ${error.message}`);
-              }}
-            />
+            {uploadedFiles.images.length >= 1 ? (
+              <div>File uploaded successfully!</div>
+            ) : (
+              <UploadButton
+                endpoint="cncFileUploader"
+                onClientUploadComplete={(res) => {
+                  if (res) {
+                    setUploadedFiles((prev) => ({
+                      ...prev,
+                      images: [...prev.images, ...res.map((file) => file.url)],
+                    }));
+                  }
+                }}
+                onUploadError={(error: Error) => {
+                  alert(`ERROR! ${error.message}`);
+                }}
+              />
+            )}
           </div>
           <Button
             type="submit"
