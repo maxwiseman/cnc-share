@@ -1,20 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { redirect, useSearchParams } from "next/navigation";
 
-interface SearchBarProps {
-  onSearch: (query: string) => void;
-}
-
-export default function SearchBar({ onSearch }: SearchBarProps) {
+export default function SearchBar() {
+  const searchParams = useSearchParams();
   const [query, setQuery] = useState("");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSearch(query);
+    redirect(`/search?q=${query}`);
   };
+
+  useEffect(() => {
+    const query = searchParams.get("q");
+    if (query) {
+      setQuery(query);
+    }
+  }, [searchParams]);
 
   return (
     <form onSubmit={handleSubmit} className="flex gap-2">

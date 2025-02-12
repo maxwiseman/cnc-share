@@ -20,19 +20,10 @@ export default function FileList() {
 
   if (!isFetched) return <>Loading...</>;
 
-  const handleSearch = (query: string) => {
-    if (!isFetched || !data) return;
-    const lowercaseQuery = query.toLowerCase();
-    const filtered = data.filter((file) =>
-      file.title?.toLowerCase().includes(lowercaseQuery),
-    );
-    setFilteredFiles(filtered);
-  };
-
   return (
     <>
       <div className="mb-4">
-        <SearchBar onSearch={handleSearch} />
+        <SearchBar />
       </div>
       {filteredFiles.length === 0 ? (
         <p>No files available.</p>
