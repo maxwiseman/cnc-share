@@ -23,6 +23,12 @@ export function Navbar() {
               >
                 Upload
               </Link>
+              <Link
+                href="/about"
+                className="rounded-md py-2 text-sm font-medium text-gray-600 hover:text-gray-900"
+              >
+                About
+              </Link>
             </div>
           </div>
           <AuthStatus />
