@@ -5,11 +5,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import ReactMarkdown from "react-markdown";
 import { eq } from "drizzle-orm";
 import { db } from "@/server/db";
-import { files, users } from "@/server/db/schema";
+import { files } from "@/server/db/schema";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { IconDownload } from "@tabler/icons-react";
 import Link from "next/link";
+import { DeleteButton } from "./delete-button";
 
 export async function generateStaticParams() {
   const fileData = await db.select().from(files).limit(10);
@@ -47,12 +48,15 @@ export default async function FilePage({
             {fileData.user?.name}
           </h2>
         </div>
-        <Link href={fileData.fileUrl ?? ""} download tabIndex={-1}>
-          <Button>
-            <IconDownload />
-            Download
-          </Button>
-        </Link>
+        <div className="flex items-center gap-2">
+          <DeleteButton authorId={fileData.userId ?? ""} fileId={fileData.id} />
+          <Link href={fileData.fileUrl ?? ""} download tabIndex={-1}>
+            <Button>
+              <IconDownload />
+              Download
+            </Button>
+          </Link>
+        </div>
       </div>
       <ScrollArea
       // className="overflow-y-hidden overflow-x-scroll"
