@@ -8,6 +8,7 @@ import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Analytics } from "@vercel/analytics/react";
 import { Navbar } from "./navbar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 export const metadata: Metadata = {
   title: "CNC Share",
@@ -35,12 +36,14 @@ export default function RootLayout({
           <SessionProvider>
             <TRPCReactProvider>
               <div className="min-h-screen bg-gray-100">
-                <Navbar />
-                <main>
-                  <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                    {children}
-                  </div>
-                </main>
+                <SidebarProvider className="contents">
+                  <Navbar />
+                  <main>
+                    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                      {children}
+                    </div>
+                  </main>
+                </SidebarProvider>
               </div>
             </TRPCReactProvider>
           </SessionProvider>
