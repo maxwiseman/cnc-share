@@ -1,7 +1,14 @@
 "use client";
 
 import AuthStatus from "@/components/auth-status";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { SheetTitle } from "@/components/ui/sheet";
 import {
   Sidebar,
@@ -9,7 +16,13 @@ import {
   SidebarMenuButton,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { IconLayoutSidebar } from "@tabler/icons-react";
+import {
+  IconLayoutSidebar,
+  IconLogin,
+  IconLogout,
+  IconUser,
+} from "@tabler/icons-react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 
 export function Navbar() {
@@ -67,38 +80,89 @@ export function Navbar() {
 
 export function AppSidebar() {
   const { setOpenMobile } = useSidebar();
+  const { data, status } = useSession();
+
   return (
     <Sidebar>
       <SheetTitle className="sr-only">Menu</SheetTitle>
       {/* <SidebarHeader>Title</SidebarHeader> */}
-      <SidebarContent className="p-2">
-        <Link href="/" className="flex-shrink-0 p-2">
-          <span className="text-2xl font-bold text-primary">CNCShare</span>
-        </Link>
-        <SidebarMenuButton
-          onClick={() => {
-            setOpenMobile(false);
-          }}
-          asChild
-        >
-          <Link href="/">Files</Link>
-        </SidebarMenuButton>
-        <SidebarMenuButton
-          onClick={() => {
-            setOpenMobile(false);
-          }}
-          asChild
-        >
-          <Link href="/upload">Upload</Link>
-        </SidebarMenuButton>
-        <SidebarMenuButton
-          onClick={() => {
-            setOpenMobile(false);
-          }}
-          asChild
-        >
-          <Link href="/about">About</Link>
-        </SidebarMenuButton>
+      <SidebarContent className="max-h-full justify-between p-2">
+        <div className="flex flex-col gap-2">
+          <Link href="/" className="flex-shrink-0 p-2">
+            <span className="text-2xl font-bold text-primary">CNCShare</span>
+          </Link>
+          <SidebarMenuButton
+            onClick={() => {
+              setOpenMobile(false);
+            }}
+            asChild
+          >
+            <Link href="/">Files</Link>
+          </SidebarMenuButton>
+          <SidebarMenuButton
+            onClick={() => {
+              setOpenMobile(false);
+            }}
+            asChild
+          >
+            <Link href="/upload">Upload</Link>
+          </SidebarMenuButton>
+          <SidebarMenuButton
+            onClick={() => {
+              setOpenMobile(false);
+            }}
+            asChild
+          >
+            <Link href="/about">About</Link>
+          </SidebarMenuButton>
+        </div>
+        {status === "unauthenticated" && (
+          <SidebarMenuButton
+            onClick={async () => {
+              await signIn();
+            }}
+            className="min-h-max"
+          >
+            <Avatar className="h-9 w-9">
+              <AvatarImage />
+              <AvatarFallback>
+                <IconLogin className="h-5 w-5" />
+              </AvatarFallback>
+            </Avatar>
+            <div>Sign in</div>
+          </SidebarMenuButton>
+        )}
+        {status === "authenticated" && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <SidebarMenuButton className="min-h-max">
+                <Avatar className="h-9 w-9">
+                  <AvatarImage src={data?.user.image ?? ""} />
+                  <AvatarFallback>
+                    <IconUser className="h-5 w-5" />
+                  </AvatarFallback>
+                </Avatar>
+                <div>
+                  <div className="font-bold">{data?.user.name}</div>
+                  {status === "authenticated" && (
+                    <div className="text-sm text-muted-foreground">
+                      {data?.user.email}
+                    </div>
+                  )}
+                </div>
+              </SidebarMenuButton>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="h-full">
+              <DropdownMenuItem
+                onClick={async () => {
+                  await signOut();
+                }}
+              >
+                <IconLogout className="h-4 w-4" /> Sign out
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
       </SidebarContent>
     </Sidebar>
   );
