@@ -16,6 +16,7 @@ import {
   SidebarMenuButton,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { useAdmin } from "@/hooks/use-admin";
 import {
   IconLogin,
   IconLogout,
@@ -27,6 +28,7 @@ import Link from "next/link";
 
 export function Navbar() {
   const { isMobile, setOpenMobile } = useSidebar();
+  const { isAdmin } = useAdmin();
 
   return (
     <nav className="sticky top-0 z-50 bg-white shadow">
@@ -38,6 +40,14 @@ export function Navbar() {
             </Link>
             {!isMobile && (
               <div className="flex items-center gap-4">
+                {isAdmin && (
+                  <Link
+                    href="/admin"
+                    className="rounded-md py-2 text-sm font-medium text-gray-600 hover:text-gray-900"
+                  >
+                    Admin
+                  </Link>
+                )}
                 <Link
                   href="/"
                   className="rounded-md py-2 text-sm font-medium text-gray-600 hover:text-gray-900"
@@ -81,6 +91,7 @@ export function Navbar() {
 export function AppSidebar() {
   const { setOpenMobile } = useSidebar();
   const { data, status } = useSession();
+  const { isAdmin } = useAdmin();
 
   return (
     <Sidebar>
@@ -91,6 +102,16 @@ export function AppSidebar() {
           <Link href="/" className="flex-shrink-0 p-2">
             <span className="text-2xl font-bold text-primary">CNCShare</span>
           </Link>
+          {isAdmin && (
+            <SidebarMenuButton
+              onClick={() => {
+                setOpenMobile(false);
+              }}
+              asChild
+            >
+              <Link href="/admin">Admin</Link>
+            </SidebarMenuButton>
+          )}
           <SidebarMenuButton
             onClick={() => {
               setOpenMobile(false);

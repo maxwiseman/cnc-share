@@ -68,6 +68,10 @@ export const reports = createTable("reports", {
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
 });
+export const reportRelations = relations(reports, ({ one }) => ({
+  file: one(files, { fields: [reports.fileId], references: [files.id] }),
+  user: one(users, { fields: [reports.userId], references: [users.id] }),
+}));
 
 export const users = createTable("user", {
   id: varchar("id", { length: 255 })

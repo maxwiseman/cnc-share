@@ -33,11 +33,11 @@ export default async function Page({
           <li key={file.id}>
             <Link href={`/file/${encodeURIComponent(file.id)}`}>
               <Card className="group flex h-full flex-col items-center justify-between p-4">
-                {file.fileUrl && (
+                {file.fileData.url && (
                   <img
                     alt="File Preview"
                     className="mb-4 grow object-center"
-                    src={file.fileUrl}
+                    src={file.fileData.url}
                   />
                 )}
                 <div className="w-full items-center justify-between gap-2">

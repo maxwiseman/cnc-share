@@ -12,6 +12,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { useAdmin } from "@/hooks/use-admin";
 import { api } from "@/trpc/react";
 import { IconTrash } from "@tabler/icons-react";
 import { useSession } from "next-auth/react";
@@ -25,9 +26,13 @@ export function DeleteButton({
   fileId: string;
 }) {
   const { data: session, status } = useSession();
+  const { isAdmin } = useAdmin();
   const deleteMutation = api.file.deleteFile.useMutation();
 
-  if (status !== "authenticated" || authorId !== session?.user.id) {
+  if (
+    (status !== "authenticated" || authorId !== session?.user.id) &&
+    !isAdmin
+  ) {
     return null;
   }
   return (

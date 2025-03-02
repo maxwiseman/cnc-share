@@ -8,6 +8,7 @@ import {
 import { files, reports } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import { utapi } from "@/server/uploadthing-server";
+import { adminUids } from "@/hooks/use-admin";
 
 export const fileRouter = createTRPCRouter({
   getFiles: publicProcedure.query(async ({ ctx }) => {
@@ -20,7 +21,11 @@ export const fileRouter = createTRPCRouter({
       const fileData = await ctx.db.query.files.findFirst({
         where: eq(files.id, input.fileId),
       });
-      if (ctx.session.user.id !== fileData?.userId || !fileData) {
+      if (
+        (ctx.session.user.id !== fileData?.userId &&
+          !adminUids.includes(ctx.session.user.id)) ||
+        !fileData
+      ) {
         return;
       }
       if (fileData.fileData.id) await utapi.deleteFiles([fileData.fileData.id]);
