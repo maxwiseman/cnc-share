@@ -12,6 +12,7 @@ import { IconDownload } from "@tabler/icons-react";
 import Link from "next/link";
 import { DeleteButton } from "./delete-button";
 import { ReportButton } from "./report-button";
+import { Markdown } from "@/components/markdown";
 
 export async function generateStaticParams() {
   const fileData = await db.select().from(files).limit(10);
@@ -86,7 +87,7 @@ export default async function FilePage({
       </ScrollArea>
       <Card className="shadow-none">
         <CardContent className="p-6">
-          <ReactMarkdown>{fileData.description}</ReactMarkdown>
+          <Markdown>{fileData.description ?? ""}</Markdown>
         </CardContent>
       </Card>
     </div>
