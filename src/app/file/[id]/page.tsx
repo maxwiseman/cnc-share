@@ -23,10 +23,11 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }): Promise<Metadata | null> {
+  const fileId = (await params).id;
   const fileData = await db.query.files.findFirst({
-    where: eq(files.id, params.id),
+    where: eq(files.id, fileId),
     with: { user: true },
   });
   if (fileData === undefined) {
