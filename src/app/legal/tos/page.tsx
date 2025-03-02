@@ -1,6 +1,8 @@
+import { baseMetadata } from "@/app/base-metadata";
 import { type Metadata } from "next";
 
 export const metadata: Metadata = {
+  ...baseMetadata,
   title: "Terms of Service - CNC Share",
   description:
     "Read our Terms of Service to learn about the rules and guidelines for using CNC Share.",

@@ -13,6 +13,7 @@ import { DeleteButton } from "./delete-button";
 import { ReportButton } from "./report-button";
 import { Markdown } from "@/components/markdown";
 import { type Metadata } from "next";
+import { baseMetadata } from "@/app/base-metadata";
 
 export async function generateStaticParams() {
   const fileData = await db.select().from(files).limit(10);
@@ -33,9 +34,16 @@ export async function generateMetadata({
   }
 
   return {
+    ...baseMetadata,
     title: `${fileData.title} - CNC Share`,
     authors: [{ name: fileData.user?.name ?? "Unknown user" }],
     description: fileData.description,
+    openGraph: {
+      images: [
+        fileData.fileData.url,
+        ...(fileData.imageData?.map((img) => img.url) ?? []),
+      ],
+    },
   };
 }
 

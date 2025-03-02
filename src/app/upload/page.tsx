@@ -1,7 +1,9 @@
 import FileUpload from "@/components/file-upload";
 import { type Metadata } from "next";
+import { baseMetadata } from "../base-metadata";
 
 export const metadata: Metadata = {
+  ...baseMetadata,
   title: "Upload CNC File - CNC Share",
   description: "Upload your CNC files to share with the world",
 };

@@ -9,11 +9,10 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Analytics } from "@vercel/analytics/react";
 import { Navbar } from "./navbar";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { baseMetadata } from "./base-metadata";
 
 export const metadata: Metadata = {
-  title: "CNC Share",
-  description: "Share your CNC files with the world",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  ...baseMetadata,
 };
 
 export default function RootLayout({
