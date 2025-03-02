@@ -10,7 +10,7 @@ import "katex/dist/katex.min.css";
 
 const components: Partial<Components> = {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- this is fine
-  code: CodeBlock,
+  // code: CodeBlock,
   pre: ({ children }) => <>{children}</>,
   ol: ({ node, children, ...props }) => {
     return (
