@@ -12,7 +12,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 
 export const metadata: Metadata = {
   title: "CNC Share",
-  description: "By Max and William",
+  description: "Share your CNC files with the world",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
