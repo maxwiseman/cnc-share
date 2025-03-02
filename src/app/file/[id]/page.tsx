@@ -40,6 +40,9 @@ export async function generateMetadata({
     authors: [{ name: fileData.user?.name ?? "Unknown user" }],
     description: fileData.description,
     openGraph: {
+      ...baseMetadata.openGraph,
+      title: `${fileData.title} - CNC Share`,
+      description: fileData.description ?? "",
       images: [
         fileData.fileData.url,
         ...(fileData.imageData?.map((img) => img.url) ?? []),
