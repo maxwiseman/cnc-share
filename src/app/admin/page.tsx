@@ -3,6 +3,8 @@ import { auth } from "@/server/auth";
 import { db } from "@/server/db";
 import { notFound } from "next/navigation";
 import { DeleteButton } from "../file/[id]/delete-button";
+import { Card } from "@/components/ui/card";
+import Link from "next/link";
 
 export default async function Page() {
   const session = await auth();
@@ -16,11 +18,11 @@ export default async function Page() {
       <h1 className="text-2xl font-bold">Admin Panel</h1>
       <div className="space-y-8">
         {data.map((report) => (
-          <div key={report.id} className="space-y-4">
-            <div>
+          <Card key={report.id} className="space-y-4 p-6">
+            <Link href={`/file/${report.file?.id}`}>
               <h2 className="text-xl font-semibold">{report.file?.title}</h2>
               <p className="text-muted-foreground">{report?.user?.name}</p>
-            </div>
+            </Link>
             <div className="space-y-2">
               <p>{report.reason}</p>
               <p className="text-muted-foreground">
@@ -31,7 +33,7 @@ export default async function Page() {
               fileId={report.file?.id ?? ""}
               authorId={session.user.id}
             />
-          </div>
+          </Card>
         ))}
       </div>
     </div>
