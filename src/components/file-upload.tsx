@@ -8,33 +8,40 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { generateUploadButton } from "@uploadthing/react";
-import { OurFileRouter } from "@/lib/uploadthing";
+import { type OurFileRouter } from "@/lib/uploadthing";
 import { api } from "@/trpc/react";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function FileUpload() {
   const { data: session } = useSession();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState<{
-    cncFile?: string;
-    images: string[];
-  }>({ images: [] });
+    cncFile: { id: string; url: string } | null;
+    images: { id: string; url: string }[] | null;
+  }>({ images: null, cncFile: null });
   const UploadButton = generateUploadButton<OurFileRouter>();
   const fileMutation = api.file.uploadFileMetadata.useMutation();
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!title || !uploadedFiles.cncFile || !session) return;
+    if (
+      !title ||
+      !uploadedFiles.cncFile ||
+      !session ||
+      !uploadedFiles.cncFile ||
+      !uploadedFiles.images
+    )
+      return;
 
-    await fileMutation.mutateAsync({
+    const data = await fileMutation.mutateAsync({
       title: title,
-      fileUrl: uploadedFiles.cncFile,
-      images: uploadedFiles.images,
+      fileData: uploadedFiles.cncFile,
+      imageData: uploadedFiles.images,
       description,
     });
-    router.push(`/file/${fileMutation.data?.[0]?.id}`);
+    router.push(`/file/${data?.[0]?.id}`);
   };
 
   if (!session) {
@@ -89,7 +96,7 @@ export default function FileUpload() {
                   if (res?.[0]) {
                     setUploadedFiles((prev) => ({
                       ...prev,
-                      cncFile: res[0]?.url,
+                      cncFile: { ...res[0]!, id: res[0]!.key },
                     }));
                   }
                 }}
@@ -101,7 +108,7 @@ export default function FileUpload() {
           </div>
           <div>
             <Label>Upload Images (optional, max 5)</Label>
-            {uploadedFiles.images.length >= 1 ? (
+            {uploadedFiles.images && uploadedFiles.images.length >= 1 ? (
               <div>File uploaded successfully!</div>
             ) : (
               <UploadButton
@@ -110,7 +117,10 @@ export default function FileUpload() {
                   if (res) {
                     setUploadedFiles((prev) => ({
                       ...prev,
-                      images: [...prev.images, ...res.map((file) => file.url)],
+                      images: [
+                        ...(prev.images ?? []),
+                        ...res.map((file) => ({ id: file.key, url: file.url })),
+                      ],
                     }));
                   }
                 }}

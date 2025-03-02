@@ -7,6 +7,7 @@ import {
 } from "@/server/api/trpc";
 import { files, reports } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
+import { utapi } from "@/server/uploadthing-server";
 
 export const fileRouter = createTRPCRouter({
   getFiles: publicProcedure.query(async ({ ctx }) => {
@@ -22,8 +23,7 @@ export const fileRouter = createTRPCRouter({
       if (ctx.session.user.id !== fileData?.userId || !fileData) {
         return;
       }
-      // TODO: Make this work. (see #9)
-      // if (fileData.fileUrl) await utapi.deleteFiles([fileData.fileUrl]);
+      if (fileData.fileData.id) await utapi.deleteFiles([fileData.fileData.id]);
       await ctx.db.delete(files).where(eq(files.id, input.fileId)).execute();
     }),
 
@@ -32,8 +32,8 @@ export const fileRouter = createTRPCRouter({
       z.object({
         title: z.string().min(1),
         description: z.string(),
-        fileUrl: z.string().url(),
-        images: z.array(z.string()),
+        fileData: z.object({ id: z.string(), url: z.string().url() }),
+        imageData: z.array(z.object({ id: z.string(), url: z.string().url() })),
       }),
     )
     .mutation(async ({ ctx, input }) => {

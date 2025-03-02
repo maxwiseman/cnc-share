@@ -48,8 +48,9 @@ export const files = createTable("files", {
     .$defaultFn(() => crypto.randomUUID()),
   title: varchar("title", { length: 255 }),
   description: varchar("description"),
-  fileUrl: varchar("file_url"),
-  images: json("images").$type<string[]>(),
+  // fileUrl: varchar("file_url"),
+  fileData: json("file_data").$type<{ id: string; url: string }>().notNull(),
+  imageData: json("images").$type<{ id: string; url: string }[]>(),
   uploadedAt: date("uploaded_at").defaultNow(),
   userId: varchar("user_id", { length: 255 }).references(() => users.id),
 });

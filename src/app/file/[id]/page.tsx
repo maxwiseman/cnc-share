@@ -52,7 +52,7 @@ export default async function FilePage({
         <div className="flex items-center gap-2">
           <ReportButton fileId={fileData.id} />
           <DeleteButton authorId={fileData.userId ?? ""} fileId={fileData.id} />
-          <Link href={fileData.fileUrl ?? ""} download tabIndex={-1}>
+          <Link href={fileData.fileData.url ?? ""} download tabIndex={-1}>
             <Button>
               <IconDownload />
               Download
@@ -64,21 +64,21 @@ export default async function FilePage({
       // className="overflow-y-hidden overflow-x-scroll"
       >
         <div className="flex flex-nowrap gap-4">
-          {fileData.fileUrl && (
+          {fileData.fileData.url && (
             <Card className="h-56 w-max max-w-[32rem] overflow-hidden p-6 shadow-none lg:h-96">
               <img
                 className="h-full"
-                src={fileData.fileUrl}
+                src={fileData.fileData.url}
                 alt="File Preview"
               />
             </Card>
           )}
-          {fileData.images?.map((img, i) => (
+          {fileData.imageData?.map((img, i) => (
             <Card
               className="h-56 w-max overflow-hidden p-0 shadow-none lg:h-96"
-              key={img}
+              key={img.id}
             >
-              <img className="h-full" src={img} alt={`Image ${i}`} />
+              <img className="h-full" src={img.url} alt={`Image ${i}`} />
             </Card>
           ))}
         </div>
