@@ -5,7 +5,7 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "@/server/api/trpc";
-import { files } from "@/server/db/schema";
+import { files, reports } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 
 export const fileRouter = createTRPCRouter({
@@ -39,6 +39,23 @@ export const fileRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       return await ctx.db
         .insert(files)
+        .values({
+          ...input,
+          userId: ctx.session.user.id,
+        })
+        .returning();
+    }),
+
+  reportFile: protectedProcedure
+    .input(
+      z.object({
+        fileId: z.string().min(1),
+        reason: z.string().optional(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.db
+        .insert(reports)
         .values({
           ...input,
           userId: ctx.session.user.id,

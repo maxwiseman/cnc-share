@@ -17,7 +17,6 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import {
-  IconLayoutSidebar,
   IconLogin,
   IconLogout,
   IconMenu2,

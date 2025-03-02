@@ -11,6 +11,7 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { IconDownload } from "@tabler/icons-react";
 import Link from "next/link";
 import { DeleteButton } from "./delete-button";
+import { ReportButton } from "./report-button";
 
 export async function generateStaticParams() {
   const fileData = await db.select().from(files).limit(10);
@@ -49,6 +50,7 @@ export default async function FilePage({
           </h2>
         </div>
         <div className="flex items-center gap-2">
+          <ReportButton fileId={fileData.id} />
           <DeleteButton authorId={fileData.userId ?? ""} fileId={fileData.id} />
           <Link href={fileData.fileUrl ?? ""} download tabIndex={-1}>
             <Button>

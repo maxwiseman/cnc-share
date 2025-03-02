@@ -1,6 +1,5 @@
 import { relations, sql } from "drizzle-orm";
 import {
-  AnyPgColumn,
   date,
   index,
   integer,
@@ -58,6 +57,16 @@ export const files = createTable("files", {
 export const filesRelations = relations(files, ({ one }) => ({
   user: one(users, { fields: [files.userId], references: [users.id] }),
 }));
+
+export const reports = createTable("reports", {
+  id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
+  fileId: varchar("file_id", { length: 255 }).references(() => files.id),
+  userId: varchar("user_id", { length: 255 }).references(() => users.id),
+  reason: text("reason"),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+});
 
 export const users = createTable("user", {
   id: varchar("id", { length: 255 })
