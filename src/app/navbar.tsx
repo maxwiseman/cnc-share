@@ -20,6 +20,7 @@ import {
   IconLayoutSidebar,
   IconLogin,
   IconLogout,
+  IconMenu2,
   IconUser,
 } from "@tabler/icons-react";
 import { signIn, signOut, useSession } from "next-auth/react";
@@ -69,7 +70,7 @@ export function Navbar() {
                 setOpenMobile(true);
               }}
             >
-              <IconLayoutSidebar className="h-4 w-4" />
+              <IconMenu2 className="h-4 w-4" />
             </Button>
           )}
         </div>
@@ -135,7 +136,7 @@ export function AppSidebar() {
         {status === "authenticated" && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <SidebarMenuButton className="min-h-max">
+              <SidebarMenuButton className="max-h-full min-h-max">
                 <Avatar className="h-9 w-9">
                   <AvatarImage src={data?.user.image ?? ""} />
                   <AvatarFallback>

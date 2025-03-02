@@ -63,7 +63,7 @@ export default async function FilePage({
       >
         <div className="flex flex-nowrap gap-4">
           {fileData.fileUrl && (
-            <Card className="h-96 w-max max-w-[32rem] overflow-hidden p-6 shadow-none">
+            <Card className="h-56 w-max max-w-[32rem] overflow-hidden p-6 shadow-none lg:h-96">
               <img
                 className="h-full"
                 src={fileData.fileUrl}
@@ -73,7 +73,7 @@ export default async function FilePage({
           )}
           {fileData.images?.map((img, i) => (
             <Card
-              className="h-96 w-max overflow-hidden p-0 shadow-none"
+              className="h-56 w-max overflow-hidden p-0 shadow-none lg:h-96"
               key={img}
             >
               <img className="h-full" src={img} alt={`Image ${i}`} />
