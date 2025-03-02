@@ -37,6 +37,11 @@ export default function RootLayout({
             <TRPCReactProvider>
               <div className="min-h-screen bg-gray-100">
                 <SidebarProvider className="contents">
+                  <div className="flex h-10 w-full items-center justify-center font-bold [background-image:repeating-linear-gradient(45deg,rgb(202_138_4),rgb(202_138_4)_10px,rgb(250_204_21)_10px,rgb(250_204_21)_20px)]">
+                    <div className="flex h-full items-center justify-center bg-yellow-400 px-2">
+                      🚧 Website under construction 🚧
+                    </div>
+                  </div>
                   <Navbar />
                   <main>
                     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
