@@ -133,7 +133,10 @@ export default function FileUpload() {
           <Button
             type="submit"
             disabled={
-              !title || !uploadedFiles.cncFile || fileMutation.isPending
+              !title ||
+              !uploadedFiles.cncFile ||
+              !uploadedFiles.images ||
+              fileMutation.isPending
             }
           >
             Submit
