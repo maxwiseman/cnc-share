@@ -31,7 +31,7 @@ export function Navbar() {
   const { isAdmin } = useAdmin();
 
   return (
-    <nav className="sticky top-0 z-50 bg-white shadow">
+    <nav className="sticky top-0 z-50 bg-background shadow">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center gap-6">
@@ -43,26 +43,26 @@ export function Navbar() {
                 {isAdmin && (
                   <Link
                     href="/admin"
-                    className="rounded-md py-2 text-sm font-medium text-gray-600 hover:text-gray-900"
+                    className="rounded-md py-2 text-sm font-medium text-muted-foreground hover:text-primary"
                   >
                     Admin
                   </Link>
                 )}
                 <Link
                   href="/"
-                  className="rounded-md py-2 text-sm font-medium text-gray-600 hover:text-gray-900"
+                  className="rounded-md py-2 text-sm font-medium text-muted-foreground hover:text-primary"
                 >
                   Files
                 </Link>
                 <Link
                   href="/upload"
-                  className="rounded-md py-2 text-sm font-medium text-gray-600 hover:text-gray-900"
+                  className="rounded-md py-2 text-sm font-medium text-muted-foreground hover:text-primary"
                 >
                   Upload
                 </Link>
                 <Link
                   href="/about"
-                  className="rounded-md py-2 text-sm font-medium text-gray-600 hover:text-gray-900"
+                  className="rounded-md py-2 text-sm font-medium text-muted-foreground hover:text-primary"
                 >
                   About
                 </Link>

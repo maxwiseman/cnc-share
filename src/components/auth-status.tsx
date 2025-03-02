@@ -6,15 +6,21 @@ import { IconLogout } from "@tabler/icons-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import {
   DropdownMenu,
+  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { useTheme } from "next-themes";
 
 export default function AuthStatus() {
   const { data: session, status } = useSession();
+  const { theme, setTheme } = useTheme();
 
   if (status === "loading") {
     return <div>Loading...</div>;
@@ -42,6 +48,35 @@ export default function AuthStatus() {
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>Theme</DropdownMenuSubTrigger>
+            <DropdownMenuSubContent>
+              <DropdownMenuCheckboxItem
+                onClick={() => {
+                  setTheme("dark");
+                }}
+                checked={theme === "dark"}
+              >
+                Dark
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem
+                onClick={() => {
+                  setTheme("light");
+                }}
+                checked={theme === "light"}
+              >
+                Light
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem
+                onClick={() => {
+                  setTheme("system");
+                }}
+                checked={theme === "system"}
+              >
+                System
+              </DropdownMenuCheckboxItem>
+            </DropdownMenuSubContent>
+          </DropdownMenuSub>
           <DropdownMenuItem onSelect={() => signOut()}>
             <IconLogout className="h-4 w-4" />
             Sign Out

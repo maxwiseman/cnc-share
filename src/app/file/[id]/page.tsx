@@ -44,8 +44,8 @@ export async function generateMetadata({
       title: `${fileData.title} - CNC Share`,
       description: fileData.description ?? "",
       images: [
-        fileData.fileData.url,
         ...(fileData.imageData?.map((img) => img.url) ?? []),
+        fileData.fileData.url,
       ],
     },
   };
@@ -100,7 +100,7 @@ export default async function FilePage({
           {fileData.fileData.url && (
             <Card className="h-56 w-max max-w-[32rem] overflow-hidden p-6 shadow-none lg:h-96">
               <img
-                className="h-full"
+                className="h-full dark:invert"
                 src={fileData.fileData.url}
                 alt="File Preview"
               />

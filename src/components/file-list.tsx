@@ -36,7 +36,7 @@ export default function FileList() {
                   {file.fileData.url && (
                     <img
                       alt="File Preview"
-                      className="mb-4 grow object-center"
+                      className="mb-4 grow object-center dark:invert"
                       src={file.fileData.url}
                     />
                   )}

@@ -34,10 +34,10 @@ export default function RootLayout({
         >
           <SessionProvider>
             <TRPCReactProvider>
-              <div className="min-h-screen bg-gray-100">
+              <div className="min-h-screen bg-muted/40">
                 <SidebarProvider className="contents">
                   <div className="flex h-10 w-full items-center justify-center font-bold [background-image:repeating-linear-gradient(45deg,rgb(234_179_8),rgb(234_179_8)_10px,rgb(250_204_21)_10px,rgb(250_204_21)_20px)]">
-                    <div className="flex h-full items-center justify-center rounded-full bg-yellow-400 px-4">
+                    <div className="flex h-full items-center justify-center rounded-full bg-yellow-400 px-4 text-black">
                       🚧 Website under construction 🚧
                     </div>
                   </div>
