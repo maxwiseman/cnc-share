@@ -1,3 +1,11 @@
+import { type Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Terms of Service - CNC Share",
+  description:
+    "Read our Terms of Service to learn about the rules and guidelines for using CNC Share.",
+};
+
 export default function Page() {
   return (
     <div className="flex w-full justify-center">

@@ -2,7 +2,6 @@
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import ReactMarkdown from "react-markdown";
 import { eq } from "drizzle-orm";
 import { db } from "@/server/db";
 import { files } from "@/server/db/schema";
@@ -13,10 +12,31 @@ import Link from "next/link";
 import { DeleteButton } from "./delete-button";
 import { ReportButton } from "./report-button";
 import { Markdown } from "@/components/markdown";
+import { type Metadata } from "next";
 
 export async function generateStaticParams() {
   const fileData = await db.select().from(files).limit(10);
   return fileData.map((file) => ({ params: { id: file.id } }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata | null> {
+  const fileData = await db.query.files.findFirst({
+    where: eq(files.id, params.id),
+    with: { user: true },
+  });
+  if (fileData === undefined) {
+    notFound();
+  }
+
+  return {
+    title: `${fileData.title} - CNC Share`,
+    authors: [{ name: fileData.user?.name ?? "Unknown user" }],
+    description: fileData.description,
+  };
 }
 
 async function getFileData(id: string) {
