@@ -61,6 +61,15 @@ export function LikeButton({
     }
   }, [likeInfo]);
 
+  if (status !== "authenticated") {
+    return (
+      <span className="inline-flex select-none items-center gap-1 text-sm text-muted-foreground">
+        <IconHeart className="h-4 w-4" />
+        {count}
+      </span>
+    );
+  }
+
   return (
     <Button
       aria-pressed={liked}
@@ -72,11 +81,6 @@ export function LikeButton({
         // Prevent parent Link navigation when used inside clickable cards
         e.preventDefault();
         e.stopPropagation();
-
-        if (status !== "authenticated") {
-          router.push("/auth/signin");
-          return;
-        }
         // optimistic update
         setLiked((prev) => !prev);
         setCount((c) => (liked ? Math.max(0, c - 1) : c + 1));
