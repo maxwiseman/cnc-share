@@ -11,6 +11,7 @@ import { IconDownload } from "@tabler/icons-react";
 import Link from "next/link";
 import { DeleteButton } from "./delete-button";
 import { ReportButton } from "./report-button";
+import LikeButton from "@/components/like-button";
 import { Markdown } from "@/components/markdown";
 import { type Metadata } from "next";
 import { baseMetadata } from "@/app/base-metadata";
@@ -83,6 +84,7 @@ export default async function FilePage({
           </h2>
         </div>
         <div className="flex items-center gap-2">
+          <LikeButton fileId={fileData.id} />
           <ReportButton fileId={fileData.id} />
           <DeleteButton authorId={fileData.userId ?? ""} fileId={fileData.id} />
           <Link href={fileData.fileData.url ?? ""} download tabIndex={-1}>

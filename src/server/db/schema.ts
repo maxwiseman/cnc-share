@@ -73,6 +73,28 @@ export const reportRelations = relations(reports, ({ one }) => ({
   user: one(users, { fields: [reports.userId], references: [users.id] }),
 }));
 
+export const likes = createTable(
+  "likes",
+  {
+    fileId: varchar("file_id", { length: 255 })
+      .notNull()
+      .references(() => files.id),
+    userId: varchar("user_id", { length: 255 })
+      .notNull()
+      .references(() => users.id),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+  },
+  (like) => ({
+    pk: primaryKey({ columns: [like.fileId, like.userId] }),
+  }),
+);
+export const likesRelations = relations(likes, ({ one }) => ({
+  file: one(files, { fields: [likes.fileId], references: [files.id] }),
+  user: one(users, { fields: [likes.userId], references: [users.id] }),
+}));
+
 export const users = createTable("user", {
   id: varchar("id", { length: 255 })
     .notNull()

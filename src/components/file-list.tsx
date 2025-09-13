@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/card";
 import SearchBar from "./search-bar";
 import { api } from "@/trpc/react";
 import type { files } from "@/server/db/schema";
+import LikeButton from "./like-button";
 
 export default function FileList() {
   const [filteredFiles, setFilteredFiles] = useState<
@@ -46,6 +47,9 @@ export default function FileList() {
                     </div>
                     <div className="text-sm text-muted-foreground">
                       {new Date(file.uploadedAt ?? "").toLocaleDateString()}
+                    </div>
+                    <div className="mt-2">
+                      <LikeButton fileId={file.id} size="sm" />
                     </div>
                     {/* TODO: Fix the hydration error with this button */}
                     {/* <Button
