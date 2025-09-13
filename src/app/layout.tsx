@@ -10,6 +10,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { Navbar } from "./navbar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { baseMetadata } from "./base-metadata";
+import Head from "next/head";
 
 export const metadata: Metadata = {
   ...baseMetadata,
@@ -24,6 +25,13 @@ export default function RootLayout({
       lang="en"
       className={`${GeistSans.variable}`}
     >
+      <Head>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7913681820971833"
+          crossOrigin="anonymous"
+        />
+      </Head>
       <body>
         <Analytics />
         <ThemeProvider
