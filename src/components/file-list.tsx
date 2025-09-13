@@ -29,7 +29,7 @@ export default function FileList() {
       {filteredFiles.length === 0 ? (
         <p>No files available.</p>
       ) : (
-        <ul className="grid auto-rows-max grid-cols-2 gap-6 lg:grid-cols-5">
+        <ul className="grid auto-rows-max grid-cols-2 gap-6 lg:grid-cols-3">
           {filteredFiles.map((file) => (
             <li key={file.id}>
               <Link href={`/file/${encodeURIComponent(file.id)}`}>
@@ -46,7 +46,7 @@ export default function FileList() {
                       {file.title}
                     </div>
                     <div className="text-sm text-muted-foreground">
-                      {new Date(file.uploadedAt ?? "").toLocaleDateString()}
+                      Fusion 360
                     </div>
                     <div className="mt-2">
                       <LikeButton fileId={file.id} size="sm" />
