@@ -103,7 +103,7 @@ export default function FileList() {
           {filteredFiles.map((file) => (
             <li key={file.id}>
               <Link href={`/file/${encodeURIComponent(file.id)}`}>
-                <Card className="group flex h-full flex-col items-center justify-between p-4">
+                <Card className="group flex h-full flex-col items-center justify-between border-2 p-4">
                   {file.fileData.url && (
                     <img
                       alt="File Preview"
