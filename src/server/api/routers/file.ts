@@ -66,6 +66,7 @@ export const fileRouter = createTRPCRouter({
       z.object({
         title: z.string().min(1),
         description: z.string(),
+        sourceUrl: z.string().url().optional(),
         fileData: z.object({ id: z.string(), url: z.string().url() }),
         imageData: z.array(z.object({ id: z.string(), url: z.string().url() })),
       }),

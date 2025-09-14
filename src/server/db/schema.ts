@@ -53,6 +53,7 @@ export const files = createTable("files", {
   imageData: json("images").$type<{ id: string; url: string }[]>(),
   uploadedAt: date("uploaded_at").defaultNow(),
   userId: varchar("user_id", { length: 255 }).references(() => users.id),
+  sourceUrl: varchar("source_url"),
 });
 
 export const filesRelations = relations(files, ({ one }) => ({

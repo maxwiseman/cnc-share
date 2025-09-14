@@ -16,6 +16,7 @@ export default function FileUpload() {
   const { data: session } = useSession();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [sourceUrl, setSourceUrl] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState<{
     cncFile: { id: string; url: string } | null;
     images: { id: string; url: string }[] | null;
@@ -40,6 +41,7 @@ export default function FileUpload() {
       fileData: uploadedFiles.cncFile,
       imageData: uploadedFiles.images,
       description,
+      sourceUrl: sourceUrl || undefined,
     });
     router.push(`/file/${data?.[0]?.id}`);
   };
@@ -72,6 +74,18 @@ export default function FileUpload() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
+            />
+          </div>
+          <div>
+            <Label htmlFor="sourceUrl">Original source link (optional)</Label>
+            <Input
+              id="sourceUrl"
+              type="url"
+              placeholder="https://example.com/original"
+              value={sourceUrl}
+              onChange={(e) => setSourceUrl(e.target.value)}
+              inputMode="url"
+              pattern="https?://.*"
             />
           </div>
           <div>

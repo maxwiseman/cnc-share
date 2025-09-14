@@ -7,7 +7,7 @@ import { db } from "@/server/db";
 import { files } from "@/server/db/schema";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { IconDownload } from "@tabler/icons-react";
+import { IconDownload, IconExternalLink } from "@tabler/icons-react";
 import Link from "next/link";
 import { DeleteButton } from "./delete-button";
 import { ReportButton } from "./report-button";
@@ -87,6 +87,19 @@ export default async function FilePage({
           <LikeButton fileId={fileData.id} />
           <ReportButton fileId={fileData.id} />
           <DeleteButton authorId={fileData.userId ?? ""} fileId={fileData.id} />
+          {fileData.sourceUrl ? (
+            <Link
+              href={fileData.sourceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              tabIndex={-1}
+            >
+              <Button variant="outline">
+                <IconExternalLink />
+                Source
+              </Button>
+            </Link>
+          ) : null}
           <Link href={fileData.fileData.url ?? ""} download tabIndex={-1}>
             <Button>
               <IconDownload />
